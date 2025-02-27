@@ -6,6 +6,13 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
+    /*
+     1. UserHibernateDaoImpl должен реализовывать интерефейс UserDao
+     2. В класс Util должна быть добавлена конфигурация для Hibernate (рядом с JDBC), без использования xml.
+     3. Service на этот раз использует реализацию dao через Hibernate
+     4. Методы создания и удаления таблицы пользователей в классе UserHibernateDaoImpl должны быть реализованы с помощью SQL.
+     */
+
     public UserDaoHibernateImpl() {
     }
 
