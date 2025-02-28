@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: kata-pp-1.1.3-4
+  profiles:
+    active: dev
