@@ -11,15 +11,33 @@ public class Util {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "root";
 
+    private static Connection connection = null;
+
+    private Util() {
+    }
+
     public static Connection getConnection() {
-        Connection connection = null;
         try {
-            Class.forName(DB_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            if (connection == null || connection.isClosed()) {
+                Class.forName(DB_DRIVER);
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return connection;
     }
+
+    public static void closeConnection() {
+        try {
+            if (!connection.isClosed() || connection != null) {
+                connection.close();
+                System.out.println("Connection closed");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 
