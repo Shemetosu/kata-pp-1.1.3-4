@@ -11,8 +11,12 @@ public class Util {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "root";
 
+    private static Connection connection = null;
+
+    private Util() {
+    }
+
     public static Connection getConnection() {
-        Connection connection = null;
         try {
             Class.forName(DB_DRIVER);
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -20,6 +24,16 @@ public class Util {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public static void closeConnection() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
