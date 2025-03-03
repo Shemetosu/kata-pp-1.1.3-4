@@ -18,8 +18,10 @@ public class Util {
 
     public static Connection getConnection() {
         try {
-            Class.forName(DB_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            if (connection == null || connection.isClosed()) {
+                Class.forName(DB_DRIVER);
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -28,12 +30,14 @@ public class Util {
 
     public static void closeConnection() {
         try {
-            if (connection != null) {
+            if (!connection.isClosed() || connection != null) {
                 connection.close();
+                System.out.println("Connection closed");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
+
 
