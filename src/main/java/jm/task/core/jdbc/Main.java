@@ -28,10 +28,6 @@ public class Main {
         userService.dropUsersTable();
 
         HibernateUtil.closeSessionFactory();
-
-        /*
-    не отлавливаешь обрабатываешь потенциальные исключения в методах, в которых не делаешь роллбэк
-         */
     }
 }
 
