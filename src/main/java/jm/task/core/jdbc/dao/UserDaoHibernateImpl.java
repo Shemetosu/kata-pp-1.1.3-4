@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -25,6 +26,8 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction tx = session.beginTransaction();
             session.createNativeQuery(query).executeUpdate();
             tx.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
         }
     }
 
@@ -35,6 +38,8 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction tx = session.beginTransaction();
             session.createNativeQuery(query).executeUpdate();
             tx.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
         }
     }
 
@@ -46,7 +51,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.save(new User(name, lastName, age));
             tx.commit();
             System.out.println("User с именем — " + name + " " + lastName + " добавлен в базу данных");
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }
@@ -65,7 +70,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 session.delete(user);
             }
             tx.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }
@@ -77,6 +82,9 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM User", User.class).list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return List.of();
         }
     }
 
@@ -88,10 +96,7 @@ public class UserDaoHibernateImpl implements UserDao {
             tx = session.beginTransaction();
             session.createNativeQuery(query).executeUpdate();
             tx.commit();
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
+        } catch (HibernateException e) {
             e.printStackTrace();
         }
     }
